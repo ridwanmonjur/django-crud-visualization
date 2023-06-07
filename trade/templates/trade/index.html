@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Employee Management System</title>
+    <title>Trading App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
           crossorigin="anonymous">
@@ -12,6 +12,19 @@
 {% include 'trade/navbar.html' %}
 <h1 class="text-center my-3">Stock List</h1>
 <div class="container">
+    <div class="my-2 mx-auto">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}"
+             role="alert">{{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="my-2 mx-auto">
+        {% include 'trade/pagination.html' with page_obj=stocks only%}
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">

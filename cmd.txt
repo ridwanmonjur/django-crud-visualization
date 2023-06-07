@@ -1,3 +1,5 @@
 django-admin startproject mysite
 python3 manage.py runserver
 python3 manage.py startapp trade
+python3 manage.py migrate
+pip install django-mathfilters
