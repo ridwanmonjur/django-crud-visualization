@@ -24,7 +24,7 @@ def index(request):
     request.session['page'] = _pageNumber
     request.session.modified = True
     page = stocks_paginated.get_page(_pageNumber)
-    prev_page = 0;
+    prev_page = 0
     if page.has_previous():
         prev_page = page.previous_page_number()
     return render(request, "trade/index.html",
