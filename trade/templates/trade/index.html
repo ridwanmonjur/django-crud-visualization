@@ -9,6 +9,7 @@
           crossorigin="anonymous">
 </head>
 <body>
+{% load mathfilters %}
 {% include 'trade/navbar.html' %}
 <h1 class="text-center my-3">Stock List</h1>
 <div class="container">
@@ -55,8 +56,10 @@
                             <td>{{stock.close}}</td>
                             <td>{{stock.volume}}</td>
                             <td>
-                                <a href="/delete/{{forloop.counter0}}" class="btn btn-danger btn-sm">Delete</a>
-                                <a href="/update/{{forloop.counter0}}" class="btn btn-success btn-sm">Update</a>
+                                <a href="/delete/{{forloop.counter0|add:prevElementCount}}"
+                                   class="btn btn-danger btn-sm">Delete</a>
+                                <a href="/update/{{forloop.counter0|add:prevElementCount}}"
+                                   class="btn btn-success btn-sm">Update</a>
                             </td>
                         </tr>
                         {%endfor%}

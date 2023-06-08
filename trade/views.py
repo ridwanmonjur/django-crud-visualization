@@ -8,11 +8,11 @@ perPage = 10
 pageNumber = 1
 with open('./stock_market_data.json', 'r') as file:
     stocks = json.load(file)
-stocksPaginated = Paginator(stocks, perPage)
 
 
 # Create your views here.
 def index(request):
+    stocks_paginated = Paginator(stocks, perPage)
     _pageNumber = pageNumber
     if request.GET.get('page') is None:
         if 'page' not in request.session:
@@ -21,12 +21,14 @@ def index(request):
             return redirect("/?page=" + str(request.session['page']))
     else:
         _pageNumber = request.GET.get('page')
-    if 'page' not in request.session:
-        request.session['page'] = _pageNumber
-        request.session.modified = True
-    page = stocksPaginated.get_page(_pageNumber)
+    request.session['page'] = _pageNumber
+    request.session.modified = True
+    page = stocks_paginated.get_page(_pageNumber)
+    prev_page = 0;
+    if page.has_previous():
+        prev_page = page.previous_page_number()
     return render(request, "trade/index.html",
-                  {'stocks': page})
+                  {'stocks': page, 'prevElementCount': prev_page * perPage})
 
 
 def delete(request, index_delete):
@@ -44,11 +46,11 @@ def add(request):
         open = request.POST.get("open")
         close = request.POST.get("close")
         volume = request.POST.get("volume")
-        stocks.prepend(
-            {'date': date, 'high': high, 'low': low, 'trade_code': trade_code, 'open': open,
-             'close': close, 'volume': volume})
-        messages.success(request, 'Added the stocks')
-        return redirect("/")
+        stocks.insert(0,
+                      {'date': date, 'high': high, 'low': low, 'trade_code': trade_code, 'open': open,
+                       'close': close, 'volume': volume})
+        messages.success(request, 'Added the stock to the beginning of the list.')
+        return redirect("/?page=1")
     return render(request, "trade/add.html", {})
 
 

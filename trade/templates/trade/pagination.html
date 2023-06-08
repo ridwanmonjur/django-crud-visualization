@@ -3,7 +3,7 @@
 <nav aria-label="Page navigation">
     <ul class="pagination">
         <li class="page-item"><a class="page-link {% if page_obj.has_previous %}{% else %}disabled{% endif %}"
-                                 href="{% if page_obj.has_previous %}/?page={{page_obj.previous_page_number}}{% endif %}">Previous</a>
+                                 href="{% if page_obj.has_previous %}/?page={{page_obj.previous_page_number}}{% endif %}"><<</a>
         </li>
         <li class="page-item"><a class="page-link" href="/?page=1">1</a></li>
         {% if 2 < page_obj.paginator.num_pages %}
@@ -11,6 +11,14 @@
         {% endif %}
         {% if 3 < page_obj.paginator.num_pages %}
         <li class="page-item"><a class="page-link" href="/?page=3">3</a></li>
+        {% endif %}
+        {% if page_obj.previous_page_number|sub:2 > 2 %}
+        <li class="page-item"><a class="page-link" href="/?page={{page_obj.previous_page_number|sub:2}}">{{page_obj.previous_page_number|sub:2}}</a>
+        </li>
+        {% endif %}
+        {% if page_obj.previous_page_number|sub:1 > 2 %}
+        <li class="page-item"><a class="page-link" href="/?page={{page_obj.previous_page_number|sub:1}}">{{page_obj.previous_page_number|sub:1}}</a>
+        </li>
         {% endif %}
         <li class="page-item">
             <a class="page-link text-dark">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </a>
@@ -35,7 +43,7 @@
             </a>
         </li>
         <li class="page-item"><a class="page-link {% if page_obj.has_next %}{% else %}disabled{% endif %}"
-                                 href="{% if page_obj.has_next %} /?page={{page_obj.next_page_number}}{% endif %}">Next</a>
+                                 href="{% if page_obj.has_next %} /?page={{page_obj.next_page_number}}{% endif %}">>></a>
         </li>
     </ul>
 </nav>
