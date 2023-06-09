@@ -6,6 +6,8 @@ import json
 from django.contrib import messages
 from django.core.paginator import Paginator
 
+from trade.forms import StockForm
+
 perPage = 10
 pageNumber = 1
 columns = ['volume', 'high', 'low', 'close', 'open']
