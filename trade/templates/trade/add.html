@@ -23,6 +23,8 @@
                             <input
                                     id="date"
                                     type="date"
+                                    required
+                                    title="This field is required"
                                     class="form-control"
                                     placeholder="Enter Stock Date"
                                     name="date"
@@ -33,6 +35,10 @@
                             <input
                                     id="trade_code"
                                     type="text"
+                                    required
+                                    title="This field is required"
+                                    maxlength="40"
+                                    minlength="0"
                                     class="form-control"
                                     placeholder="Enter Stock Trade Code"
                                     name="trade_code"
@@ -42,7 +48,8 @@
                             <label for="trade_code">Stock Trade Open</label>
                             <input
                                     id="open"
-                                    type="text"
+                                    type="number"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock Trade Open"
                                     name="open"
@@ -52,7 +59,8 @@
                             <label for="high">Stock High</label>
                             <input
                                     id="high"
-                                    type="text"
+                                    type="number"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock High"
                                     name="high"
@@ -62,7 +70,8 @@
                             <label for="low">Stock Low</label>
                             <input
                                     id="low"
-                                    type="text"
+                                    type="number"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock Low"
                                     name="low"
@@ -72,7 +81,8 @@
                             <label for="close">Stock Close</label>
                             <input
                                     id="close"
-                                    type="text"
+                                    type="number"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock Close"
                                     name="close"
@@ -82,7 +92,8 @@
                             <label for="volume">Stock Volume</label>
                             <input
                                     id="volume"
-                                    type="text"
+                                    type="number"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock Volume"
                                     name="volume"

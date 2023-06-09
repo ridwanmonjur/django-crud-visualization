@@ -3,3 +3,10 @@ python3 manage.py runserver
 python3 manage.py startapp trade
 python3 manage.py migrate
 pip install django-mathfilters
+python3 manage.py loaddata stock_market_data.json
+pip install djangorestframework
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+pip install django-seed
+python3 manage.py seed --mode=seed

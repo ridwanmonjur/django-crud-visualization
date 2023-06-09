@@ -33,7 +33,8 @@
                     <table class="table table-light table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>NO.</th>
+                            <th>#</th>
+                            <th>ID</th>
                             <th>DATE</th>
                             <th>TRADE CODE</th>
                             <th>HIGH</th>
@@ -47,7 +48,8 @@
                         <tbody>
                         {% for stock in stocks %}
                         <tr>
-                            <td>{{forloop.counter}}</td>
+                            <td>{{forloop.counter|add:prevElementCount}}</td>
+                            <td>{{stock.id}}</td>
                             <td>{{stock.date}}</td>
                             <td>{{stock.trade_code}}</td>
                             <td>{{stock.high}}</td>
@@ -56,9 +58,9 @@
                             <td>{{stock.close}}</td>
                             <td>{{stock.volume}}</td>
                             <td>
-                                <a href="/delete/{{forloop.counter0|add:prevElementCount}}"
+                                <a href="/delete/{{stock.id}}"
                                    class="btn btn-danger btn-sm">Delete</a>
-                                <a href="/update/{{forloop.counter0|add:prevElementCount}}"
+                                <a href="/update/{{stock.id}}"
                                    class="btn btn-success btn-sm">Update</a>
                             </td>
                         </tr>

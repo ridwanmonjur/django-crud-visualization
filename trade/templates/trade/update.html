@@ -27,7 +27,8 @@
                                     class="form-control"
                                     placeholder="Enter stock name"
                                     name="date"
-                                    value="{{stock.date}}"
+                                    required
+                                    value="{{stock.date|date:'Y-m-d'}}"
                             />
                         </div>
                         <div class="mb-3">
@@ -35,6 +36,9 @@
                             <input
                                     id="trade_code"
                                     type="text"
+                                    required
+                                    minlength="0"
+                                    maxlength="40"
                                     class="form-control"
                                     placeholder="Enter Stock Trade Cod"
                                     name="trade_code"
@@ -45,10 +49,11 @@
                             <label for="high">Stock High</label>
                             <input
                                     id="high"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock High"
                                     name="high"
+                                    required
                                     value="{{stock.high}}"
                             />
                         </div>
@@ -56,7 +61,8 @@
                             <label for="low">Stock Low</label>
                             <input
                                     id="low"
-                                    type="text"
+                                    type="number"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock Low"
                                     name="low"
@@ -65,13 +71,27 @@
                             />
                         </div>
                         <div class="mb-3">
+                            <label for="close">Stock Open</label>
+                            <input
+                                    id="open"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Enter Stock Open"
+                                    name="open"
+                                    required
+                                    value="{{stock.open}}"
+
+                            />
+                        </div>
+                        <div class="mb-3">
                             <label for="close">Stock Close</label>
                             <input
                                     id="close"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Close"
                                     name="close"
+                                    required
                                     value="{{stock.close}}"
 
                             />
@@ -80,10 +100,11 @@
                             <label for="volume">Stock Volume</label>
                             <input
                                     id="volume"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Volume"
                                     name="volume"
+                                    required
                                     value="{{stock.volume}}"
 
                             />

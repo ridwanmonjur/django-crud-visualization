@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("delete/<int:index_delete>", views.delete, name="delete"),
     path("add", views.add),
-    path("update/<int:index_update>", views.update),
-    path("do-update/<int:index_update>", views.do_update),
+    path("seed", views.seed),
+    path("update/<int:id_update>", views.update),
+    path("do-update/<int:id_update>", views.do_update),
 ]

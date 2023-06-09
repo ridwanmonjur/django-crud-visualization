@@ -1,18 +1,20 @@
-from django.http import HttpResponse
+import traceback
+
+from django.core.exceptions import ViewDoesNotExist
 from django.shortcuts import render, redirect
 import json
 from django.contrib import messages
 from django.core.paginator import Paginator
+from decimal import Decimal
+
+from .models import Stock
 
 perPage = 10
 pageNumber = 1
-with open('./stock_market_data.json', 'r') as file:
-    stocks = json.load(file)
 
 
 # Create your views here.
 def index(request):
-    stocks_paginated = Paginator(stocks, perPage)
     _pageNumber = pageNumber
     if request.GET.get('page') is None:
         if 'page' not in request.session:
@@ -21,10 +23,17 @@ def index(request):
             return redirect("/?page=" + str(request.session['page']))
     else:
         _pageNumber = request.GET.get('page')
+        if _pageNumber == "-1": _pageNumber = Stock.objects.count()
     request.session['page'] = _pageNumber
     request.session.modified = True
+    try:
+        queryset = Stock.objects.all()
+        stocks_paginated = Paginator(queryset, perPage)
+    except Exception as e:
+        messages.error(request, repr(e))
+        return redirect("/?page=1")
     page = stocks_paginated.get_page(_pageNumber)
-    prev_page = 0;
+    prev_page = 0
     if page.has_previous():
         prev_page = page.previous_page_number()
     return render(request, "trade/index.html",
@@ -32,8 +41,11 @@ def index(request):
 
 
 def delete(request, index_delete):
-    del stocks[index_delete]
-    messages.success(request, 'Deleted the stocks')
+    try:
+        Stock.objects.get(id=index_delete).delete()
+        messages.success(request, 'Deleted the stocks')
+    except Exception as e:
+        messages.error(request, repr(e))
     return redirect("/")
 
 
@@ -46,31 +58,63 @@ def add(request):
         open = request.POST.get("open")
         close = request.POST.get("close")
         volume = request.POST.get("volume")
-        stocks.insert(0,
-                      {'date': date, 'high': high, 'low': low, 'trade_code': trade_code, 'open': open,
-                       'close': close, 'volume': volume})
-        messages.success(request, 'Added the stock to the beginning of the list.')
-        return redirect("/?page=1")
+        try:
+            stocksData = {'date': date, 'high': high, 'low': low, 'trade_code': trade_code, 'open': open,
+                          'close': close, 'volume': volume}
+            stock = Stock(**stocksData)
+            stock.save()
+        except Exception as e:
+            messages.error(request, repr(e))
+            return redirect("/")
+        messages.success(request, 'Added the stocks')
+        return redirect("/?page=-1")
     return render(request, "trade/add.html", {})
 
 
-def update(request, index_update):
-    stock = stocks[index_update]
+def update(request, id_update):
+    try:
+        stock = Stock.objects.get(id=id_update)
+        if stock is None:
+            raise Exception("No Data found")
+    except Exception as e:
+        messages.error(request, repr(e))
+        return redirect("/")
     return render(request, "trade/update.html", {
-        'stock': stock, 'stockIndex': index_update
+        'stock': stock, 'stockIndex': id_update
     })
 
 
-def do_update(request, index_update):
-    if request.method == "POST":
-        date = request.POST.get("date")
-        high = request.POST.get("high")
-        low = request.POST.get("low")
-        trade_code = request.POST.get("trade_code")
-        open = request.POST.get("open")
-        close = request.POST.get("close")
-        volume = request.POST.get("volume")
-        stocks[index_update] = {'date': date, 'high': high, 'low': low, 'trade_code': trade_code, 'open': open,
-                                'close': close, 'volume': volume}
-        messages.success(request, 'Updated the stocks')
+def do_update(request, id_update):
+    try:
+        if request.method == "POST":
+            stock = Stock.objects.get(id=id_update)
+            if stock is None:
+                raise Exception("No Data found")
+            stock.date = request.POST.get("date")
+            stock.high = request.POST.get("high")
+            stock.low = request.POST.get("low")
+            stock.trade_code = request.POST.get("trade_code")
+            stock.open = request.POST.get("open")
+            stock.close = request.POST.get("close")
+            stock.volume = request.POST.get("volume")
+            stock.save()
+            messages.success(request, f"Updated the stock id: {id_update}")
+        else:
+            raise ViewDoesNotExist("GET request not allowed!")
+    except Exception as e:
+        messages.error(request, repr(e))
     return redirect("/")
+
+
+def seed(request):
+    columns = ['volume', 'high', 'low', 'close', 'open']
+    Stock.objects.all().delete()
+    with open('./stock_market_data.json', 'r') as file:
+        stocks = json.load(file)
+        for _index, value in enumerate(stocks):
+            for column in columns:
+                stocks[_index][column] = Decimal(stocks[_index][column].replace(',', ''))
+            stocks[_index] = Stock(**stocks[_index])
+            print(stocks[_index])
+    Stock.objects.bulk_create(stocks)
+    return redirect("/?page=1")
