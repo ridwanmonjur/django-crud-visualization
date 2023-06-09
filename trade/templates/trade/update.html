@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Update Stock Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-          crossorigin="anonymous">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
 </head>
 <body>
 {% include 'trade/navbar.html' %}
@@ -46,7 +45,7 @@
                             />
                         </div>
                         <div class="mb-3">
-                            <label for="high">Stock High</label>
+                            <label for="high">Stock High (2 d.p.)</label>
                             <input
                                     id="high"
                                     type="number"
@@ -55,10 +54,11 @@
                                     name="high"
                                     required
                                     value="{{stock.high}}"
+                                    step="any"
                             />
                         </div>
                         <div class="mb-3">
-                            <label for="low">Stock Low</label>
+                            <label for="low">Stock Low (2 d.p.)</label>
                             <input
                                     id="low"
                                     type="number"
@@ -67,11 +67,11 @@
                                     placeholder="Enter Stock Low"
                                     name="low"
                                     value="{{stock.low}}"
-
+                                    step="any"
                             />
                         </div>
                         <div class="mb-3">
-                            <label for="close">Stock Open</label>
+                            <label for="close">Stock Open (2 d.p.)</label>
                             <input
                                     id="open"
                                     type="number"
@@ -80,11 +80,11 @@
                                     name="open"
                                     required
                                     value="{{stock.open}}"
-
+                                    step="any"
                             />
                         </div>
                         <div class="mb-3">
-                            <label for="close">Stock Close</label>
+                            <label for="close">Stock Close (2 d.p.)</label>
                             <input
                                     id="close"
                                     type="number"
@@ -93,11 +93,11 @@
                                     name="close"
                                     required
                                     value="{{stock.close}}"
-
+                                    step="any"
                             />
                         </div>
                         <div class="mb-3">
-                            <label for="volume">Stock Volume</label>
+                            <label for="volume">Stock Volume (2 d.p.)</label>
                             <input
                                     id="volume"
                                     type="number"
@@ -106,7 +106,7 @@
                                     name="volume"
                                     required
                                     value="{{stock.volume}}"
-
+                                    step="any"
                             />
                         </div>
                         <div class="container text-center">
@@ -121,8 +121,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
+{% bootstrap_javascript %}
+
 </body>
 </html>

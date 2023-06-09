@@ -8,5 +8,5 @@ pip install djangorestframework
 
 python3 manage.py makemigrations
 python3 manage.py migrate
-pip install django-seed
+python3 -m pip install django-chartjs
 python3 manage.py seed --mode=seed

@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'trade',
     'mathfilters',
+    'bootstrap5',
     'rest_framework',
+    'chartjs'
 ]
 
 REST_FRAMEWORK = {

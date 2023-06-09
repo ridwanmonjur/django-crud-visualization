@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trading Charts</title>
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <style>
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 40vw;
+        }
+
+    </style>
+</head>
+<body>
+{% include 'trade/navbar.html' %}
+<h1 class="text-center my-3">Choose trade code</h1>
+<select onchange="renderChart(event);" class="form-select w-25 mx-auto" aria-label="Default select example">
+     {% for trade_code_number in trade_codes_number %}
+                         <option value="{{trade_code_number.trade_code}}">{{trade_code_number.trade_code}}</option>
+     {%endfor%}
+</select>
+<div id="charts">
+<h1 class="text-center my-3">3D Chart</h1>
+<div>
+    <div class="chart-container">
+        <canvas id="mixedChart"></canvas>
+    </div>
+</div>
+<h1 class="text-center my-3">Line Chart</h1>
+<div>
+    <div class="chart-container">
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
+<h1 class="text-center my-3">Bar Chart</h1>
+
+<div>
+    <div class="chart-container">
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+</div>
+{% load mathfilters %}
+<script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+<script type="text/javascript">
+    const charts = document.getElementById("charts");
+    charts.style.display="none";
+    function renderChart (event) {
+        console.log({event});
+        charts.style.display="block";
+        event.preventDefault();
+        const value =  event.target.value;
+        const lineChart = document.getElementById("lineChart");
+        const barChart = document.getElementById("barChart");
+        const mixedChart = document.getElementById("mixedChart");
+
+        const lineChartCtx = lineChart.getContext("2d");
+        const barChartCtx = barChart.getContext("2d");
+        const mixedChartCtx = mixedChart.getContext("2d");
+
+         const configLineChart = {
+           type: 'line',
+           options: {
+                scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Stock Close'
+                    }
+                }]
+
+                }
+
+           }
+        };
+        const configBarChart = {
+          type: 'bar',
+           options: {
+               scales: {
+               yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Stock Volume'
+                    }
+               }],
+               }
+           }
+        };
+        const configMixedChart = {
+            type: 'line',
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        id: 'y1',
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Stock Volume'
+                        }
+                    },
+                    {
+                        id: 'y2',
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                         ticks: {
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Stock Close'
+                        }
+                    }]
+                },
+            }
+        };
+        const configDatasets= {
+           fill: true,
+           borderColor: 'rgb(75, 192, 192)',
+           tension: 0.1
+        };
+
+        fetch(`get_chart?code=${value}`)
+           .then(data=>data.json())
+           .then(data=>{
+               console.log({data})
+               configLineChart.data= {
+                   labels: data.date,
+                   datasets: [{
+                       label: 'Line chart',
+                       data: data.close,
+                       ...configDatasets
+                   }]
+               }
+               configBarChart.data= {
+                   labels: data.date,
+                   datasets: [{
+                       label: 'Bar chart',
+                       data: data.volume,
+                       ...configDatasets
+                   }]
+               }
+                configMixedChart.data = {
+                    labels: data.date,
+                    datasets: [{
+                        type: 'bar',
+                        label: 'Bar Dataset',
+                        data: data.volume,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        order: 2,
+                        yAxisID: 'y1',
+                        minBarLength: "40",
+                    }, {
+                        type: 'line',
+                        label: 'Line Dataset',
+                        data: data.close,
+                        fill: true,
+                        borderColor: 'rgb(54, 162, 235)',
+                        order: 2,
+                        yAxisID: 'y2',
+                    }],
+               };
+               new Chart(lineChartCtx, configLineChart);
+               new Chart(barChartCtx, configBarChart);
+               new Chart(mixedChartCtx, configMixedChart);
+           });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
