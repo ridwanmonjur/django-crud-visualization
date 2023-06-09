@@ -28,6 +28,7 @@
                                     placeholder="Enter stock name"
                                     name="date"
                                     value="{{stock.date}}"
+                                    required
                             />
                         </div>
                         <div class="mb-3">
@@ -36,43 +37,69 @@
                                     id="trade_code"
                                     type="text"
                                     class="form-control"
+                                    minlength="4"
+
                                     placeholder="Enter Stock Trade Cod"
                                     name="trade_code"
                                     value="{{stock.trade_code}}"
+                                    required
                             />
                         </div>
                         <div class="mb-3">
                             <label for="high">Stock High</label>
                             <input
                                     id="high"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock High"
                                     name="high"
+                                    step="any"
+
                                     value="{{stock.high}}"
+                                    required
                             />
                         </div>
                         <div class="mb-3">
                             <label for="low">Stock Low</label>
                             <input
                                     id="low"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Low"
                                     name="low"
-                                    value="{{stock.low}}"
 
+                                    step="any"
+
+                                    value="{{stock.low}}"
+                                    required
+
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="close">Stock Open</label>
+                            <input
+                                    id="open"
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Enter Stock Open"
+                                    name="open"
+                                    step="any"
+                                    value="{{stock.open}}"
+                                    required
                             />
                         </div>
                         <div class="mb-3">
                             <label for="close">Stock Close</label>
                             <input
                                     id="close"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Close"
                                     name="close"
+                                    step="any"
+
                                     value="{{stock.close}}"
+                                    required
 
                             />
                         </div>
@@ -80,11 +107,13 @@
                             <label for="volume">Stock Volume</label>
                             <input
                                     id="volume"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Volume"
                                     name="volume"
+                                    step="any"
                                     value="{{stock.volume}}"
+                                    required
 
                             />
                         </div>

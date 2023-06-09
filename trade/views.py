@@ -1,3 +1,5 @@
+from _decimal import Decimal
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import json
@@ -6,8 +8,13 @@ from django.core.paginator import Paginator
 
 perPage = 10
 pageNumber = 1
+columns = ['volume', 'high', 'low', 'close', 'open']
+
 with open('./stock_market_data.json', 'r') as file:
     stocks = json.load(file)
+    for _index, value in enumerate(stocks):
+        for column in columns:
+            stocks[_index][column] = Decimal(stocks[_index][column].replace(',', ''))
 
 
 # Create your views here.

@@ -23,6 +23,7 @@
                             <input
                                     id="date"
                                     type="date"
+                                    required
                                     class="form-control"
                                     placeholder="Enter Stock Date"
                                     name="date"
@@ -36,56 +37,73 @@
                                     class="form-control"
                                     placeholder="Enter Stock Trade Code"
                                     name="trade_code"
+                                    minlength="5"
+                                    required
                             />
                         </div>
                         <div class="mb-3">
                             <label for="trade_code">Stock Trade Open</label>
                             <input
                                     id="open"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Trade Open"
                                     name="open"
+                                    minlength="5"
+                                    required
+
                             />
                         </div>
                         <div class="mb-3">
                             <label for="high">Stock High</label>
                             <input
                                     id="high"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock High"
                                     name="high"
+                                    required
+                                    step="any"
+
                             />
                         </div>
                         <div class="mb-3">
                             <label for="low">Stock Low</label>
                             <input
                                     id="low"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Low"
                                     name="low"
+                                    required
+                                    step="any"
+
                             />
                         </div>
                         <div class="mb-3">
                             <label for="close">Stock Close</label>
                             <input
                                     id="close"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Close"
                                     name="close"
+                                    required
+                                    step="any"
+
                             />
                         </div>
                         <div class="mb-3">
                             <label for="volume">Stock Volume</label>
                             <input
                                     id="volume"
-                                    type="text"
+                                    type="number"
                                     class="form-control"
                                     placeholder="Enter Stock Volume"
                                     name="volume"
+                                    required
+                                    step="any"
+
                             />
                         </div>
                         <div class="container text-center">
